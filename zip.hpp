@@ -4,7 +4,6 @@
 
 #include <type_traits>
 #include <vector>
-#include <iostream>
 
 template<typename Func>
 struct function_traits {
