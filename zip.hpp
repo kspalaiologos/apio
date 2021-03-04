@@ -2,32 +2,11 @@
 #ifndef _APIO_ZIP
 #define _APIO_ZIP
 
+#include "function_traits.hpp"
 #include <type_traits>
 #include <vector>
 
-template<typename Func>
-struct function_traits {
-private:
-    template<typename Ret, typename... Args>
-    static Ret get_return(Ret(*)(Args...));
-    template<typename Ret, typename Class, typename... Args>
-    static Ret get_return(Ret(Class::*)(Args...));
-    template<typename Ret, typename Class, typename... Args>
-    static Ret get_return(Ret(Class::*)(Args...) const);
-    template<typename Ret, typename Class, typename... Args>
-    static Ret get_return(Ret(Class::*)(Args...) const &);
-    template<typename Ret, typename Class, typename... Args>
-    static Ret get_return(Ret(Class::*)(Args...) &);
-    template<typename Ret, typename Class, typename... Args>
-    static Ret get_return(Ret(Class::*)(Args...) &&);
-    template<typename Functor>
-    static decltype(get_return(&Functor::operator())) get_return(Functor);
-public:
-    using return_type = decltype(get_return(std::declval<Func>()));
-};
-
-template<typename Func>
-using function_return_type = typename function_traits<Func>::return_type;
+namespace apio {
 
 template <typename Iterator>
 constexpr void advance_all (Iterator & iterator) { ++iterator; }
@@ -59,6 +38,8 @@ constexpr std::vector<function_return_type<Functor>> zip(Functor callback, Itera
     for(; begin != end; ++begin, advance_all(iterators...))
         zipped.push_back(callback(*begin, *(iterators)...));
     return zipped;
+}
+
 }
 
 #endif
