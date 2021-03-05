@@ -2,6 +2,9 @@
 #ifndef _APIO_FUNCTION_TRAITS
 #define _APIO_FUNCTION_TRAITS
 
+#include <type_traits>
+#include <tuple>
+
 namespace apio {
 
 template<typename Func>
